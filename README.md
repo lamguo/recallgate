@@ -193,6 +193,17 @@ RecallGate is built to be **cheap, local, and predictable**. No vector database.
 
 ---
 
+## Support
+
+If RecallGate saves you tokens and time, consider buying me a coffee:
+
+[![PayPal](https://img.shields.io/badge/Donate-PayPal-%2300457C?style=flat-square)](https://paypal.me/lamguo)
+[![GitHub Sponsors](https://img.shields.io/badge/Sponsor-GitHub-%23EA4AAA?style=flat-square)](https://github.com/sponsors/lamguo)
+
+Every bit of support helps keep the project actively maintained. Thank you! ❤️
+
+---
+
 ## Status
 
 `v0.1.0` — alpha MVP with **31 unit tests, 0 dependencies, and 17 CLI commands**.
