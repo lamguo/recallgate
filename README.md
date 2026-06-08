@@ -193,6 +193,20 @@ RecallGate is built to be **cheap, local, and predictable**. No vector database.
 
 ---
 
+
+
+---
+
+### 📎 See also
+
+| Project | |
+|---------|-|
+| [**recallgate**](https://github.com/lamguo/recallgate) | Token-efficient memory gate for AI coding agents |
+| [**markitdown-plus**](https://github.com/lamguo/markitdown-plus) | Batch document conversion toolkit |
+| [**trendpilot-ai**](https://github.com/lamguo/trendpilot-ai) | Curated AI tools, workflows, and templates |
+
+*Built from real use, for real use.*
+
 ## Support
 
 If RecallGate saves you tokens and time, consider buying me a coffee:
