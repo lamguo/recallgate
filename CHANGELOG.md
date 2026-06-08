@@ -1,9 +1,8 @@
 # Changelog
 
-## v0.1.0 - 2026-06-07
+## v0.1.0 - 2026-06-08
 
-
-### Added during final automation pass
+### Added during automation pass
 
 - Added `update` / `edit` command so memories can be modified without delete-and-recreate workflows.
 - Added `info` command for full memory details from the CLI.

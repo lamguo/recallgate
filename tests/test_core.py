@@ -312,3 +312,24 @@ class RecallGateCoreTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+class RecallGateAuditRegressionTests(unittest.TestCase):
+    def test_default_unittest_discovery_has_importable_tests_package(self):
+        self.assertTrue((Path(__file__).parent / "__init__.py").exists())
+
+    def test_config_contains_only_used_default_budget(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            init_workspace(root)
+            config = (root / ".recallgate" / "config.toml").read_text(encoding="utf-8")
+            self.assertIn("default_budget", config)
+            self.assertNotIn("default_roles", config)
+
+    def test_change_status_deleted_permanently_removes_record(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            init_workspace(root)
+            memory = add_memory("Delete through status.", root=root)
+            removed = change_status(memory["id"], "deleted", root=root)
+            self.assertEqual(removed["id"], memory["id"])
+            self.assertEqual(list_memories(root=root), [])

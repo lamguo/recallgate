@@ -161,8 +161,8 @@ def init_workspace(root: Optional[Path] = None) -> Path:
     if not paths.config.exists():
         paths.config.write_text(
             "# RecallGate config\n"
-            "default_budget = 300\n"
-            "default_roles = [\"coder\", \"tester\", \"writer\", \"reviewer\"]\n",
+            "# Approximate max tokens for generated briefs before token reports.\n"
+            "default_budget = 300\n",
             encoding="utf-8",
         )
     for name in ["coder", "tester", "writer", "reviewer", "planner", "security"]:
@@ -198,7 +198,6 @@ def read_config(paths: Paths) -> Dict[str, Any]:
     """
     defaults: Dict[str, Any] = {
         "default_budget": 300,
-        "default_roles": ["coder", "tester", "writer", "reviewer"],
     }
     if not paths.config.exists():
         return defaults
@@ -213,10 +212,6 @@ def read_config(paths: Paths) -> Dict[str, Any]:
                 config[key] = max(1, int(value))
             except ValueError:
                 continue
-        elif key == "default_roles":
-            roles = re.findall(r'"([^"\n]+)"', value)
-            if roles:
-                config[key] = roles
     return config
 
 
@@ -352,6 +347,10 @@ def get_memory(data: Dict[str, Any], mem_id: str) -> Dict[str, Any]:
 
 def change_status(mem_id: str, status: str, *, root: Optional[Path] = None) -> Dict[str, Any]:
     status = status.lower().strip()
+    if status == "deleted":
+        # Deleted is a terminal action, not a stored lifecycle state. Keep this
+        # API defensive so callers cannot leave zombie records in index.json.
+        return delete_memory(mem_id, root=root)
     if status not in VALID_STATUSES:
         raise ValueError(f"Invalid status: {status}")
     root = find_root(root)
@@ -362,10 +361,7 @@ def change_status(mem_id: str, status: str, *, root: Optional[Path] = None) -> D
     memory["status"] = status
     memory["updated_at"] = now_iso()
     remove_old_file(paths, old_file)
-    if status == "deleted":
-        memory["file"] = None
-    else:
-        memory["file"] = write_memory_file(paths, memory)
+    memory["file"] = write_memory_file(paths, memory)
     save_index(paths, data)
     return memory
 
