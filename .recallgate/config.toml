@@ -1,0 +1,3 @@
+# RecallGate config
+default_budget = 300
+default_roles = ["coder", "tester", "writer", "reviewer"]

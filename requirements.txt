@@ -1,0 +1,3 @@
+# RecallGate has zero runtime dependencies.
+# Install locally with:
+#   python -m pip install -e .
